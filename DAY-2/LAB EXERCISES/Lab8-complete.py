@@ -37,6 +37,38 @@ rows= cursor.fetchall()
 for row in rows:
     print(row)
 
-# Close connection
+
+# Step 4: Update multiple records
+update_query = "UPDATE students SET age = %s WHERE id = %s"
+update_data = [
+    (21, 1),  # Update Alice's age
+    (23, 2)   # Update Bob's age
+]
+cursor.executemany(update_query, update_data)
+conn.commit()
+print(cursor.rowcount, "rows updated.")
+
+cursor.execute("SELECT * FROM students")
+rows= cursor.fetchall()
+for row in rows:
+    print(row)
+
+# Step 5: Delete records
+delete_query = "DELETE FROM students WHERE id = %s"
+delete_data = [
+    (3,),  # Delete Charlie
+]
+cursor.executemany(delete_query, delete_data)
+conn.commit()
+print(cursor.rowcount, "row(s) deleted.")
+
+# Step 6: Display remaining records
+cursor.execute("SELECT * FROM students")
+print("\nRemaining records:")
+for row in cursor.fetchall():
+    print(row)
+
+# Step 7: Close connection
 cursor.close()
 conn.close()
+
